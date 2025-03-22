@@ -27,16 +27,14 @@ public class AuthenticationHandlerService {
     }
 
     public Long getAuthenticatedUserId() {
-        // Retrieve the Authentication object from the SecurityContext
+        
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         
-        // Assuming the authenticated user has their userId stored in the principal or custom user details
         if (authentication != null && authentication.getPrincipal() instanceof CustomUsermodel) {
             CustomUsermodel userDetails = (CustomUsermodel) authentication.getPrincipal();
-            return userDetails.getUserId();  // Assuming CustomUserDetails has getUserId method
+            return userDetails.getUserId(); 
         }
         
-        // In case no authentication is found, throw an exception or return null
         throw new RuntimeException("User not authenticated");
     }
 }

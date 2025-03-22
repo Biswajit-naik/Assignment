@@ -7,8 +7,6 @@ public class MonthlyReport {
     private double totalExpenses;
     private List<CategoryBreakdown> categoryBreakdown;
 
-    // Getters and Setters
-
     public double getTotalExpenses() {
         return totalExpenses;
     }
@@ -25,7 +23,6 @@ public class MonthlyReport {
         this.categoryBreakdown = categoryBreakdown;
     }
 
-    // CategoryBreakdown class
     public static class CategoryBreakdown {
         private String category;
         private double totalAmount;
@@ -53,4 +50,3 @@ public class MonthlyReport {
         }
     }
 }
-

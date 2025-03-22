@@ -21,12 +21,10 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        // Logging request details
         logger.info("Request Method: " + request.getMethod());
         logger.info("Request URL: " + request.getRequestURL());
         logger.info("Request IP: " + request.getRemoteAddr());
         
-        // Proceed with the filter chain
         filterChain.doFilter(request, response);
     }
 

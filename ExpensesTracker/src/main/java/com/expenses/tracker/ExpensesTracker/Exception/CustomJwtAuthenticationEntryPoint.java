@@ -15,7 +15,7 @@ public class CustomJwtAuthenticationEntryPoint implements AuthenticationEntryPoi
                          AuthenticationException authException) throws IOException {
 
         response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); 
         response.getWriter().write("{\"error\": \"Invalid or expired JWT token. Please log in again.\"}");
     }
 }

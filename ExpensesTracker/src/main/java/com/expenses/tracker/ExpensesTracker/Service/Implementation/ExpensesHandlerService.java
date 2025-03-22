@@ -29,13 +29,13 @@ public class ExpensesHandlerService {
     private static final Logger logger = LoggerFactory.getLogger(ExpensesHandlerService.class);
 
     @Autowired
-    public ExpensesHandlerService(ExpenseRepository serviceinstace,UserRepository userRepository) {
+    public ExpensesHandlerService(ExpenseRepository serviceinstace, UserRepository userRepository) {
         this.expenseRepository = serviceinstace;
         this.userRepository = userRepository;
 
     }
 
-    public Expensemodel createExpense(Expensemodel expense,Long userId) {
+    public Expensemodel createExpense(Expensemodel expense, Long userId) {
         Usermodel user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not availble"));
         Expensemodel curexpense = new Expensemodel();
         curexpense.setAmmount(expense.getAmmount());
@@ -47,30 +47,19 @@ public class ExpensesHandlerService {
         return curexpense;
     }
 
-
-
-    public Page<Expensemodel> getUserExpenses(Long id,int page,int size ) {
+    public Page<Expensemodel> getUserExpenses(Long id, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        try{
-            
-            Page<Expensemodel> f = expenseRepository.findExpensesByUserId(id, pageable);
-            logger.info("Scuccesfully get the getUserExpenses"+ f.getContent(),f.getNumber(),f.getSize());
-
-            return f;   
-        }catch(Exception e){
-            logger.info("Thowing error from getUserExpenses");
-            e.printStackTrace();
-
-            return Page.empty();            
-        }
+        Page<Expensemodel> expensep = expenseRepository.findExpensesByUserId(id, pageable);
+        return expensep;
     }
 
-    public Expensemodel updateExpense(Long id,Expensemodel expense) {
-       Expensemodel existuser = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Expense not availble"));
-       existuser.setAmmount(expense.getAmmount());
-       existuser.setCategory(expense.getCategory());
-       existuser.setDescription(expense.getDescription());
-       existuser.setDate(expense.getDate());
+    public Expensemodel updateExpense(Long id, Expensemodel expense) {
+        Expensemodel existuser = expenseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Expense not availble"));
+        existuser.setAmmount(expense.getAmmount());
+        existuser.setCategory(expense.getCategory());
+        existuser.setDescription(expense.getDescription());
+        existuser.setDate(expense.getDate());
         return existuser;
     }
 
@@ -78,28 +67,24 @@ public class ExpensesHandlerService {
         expenseRepository.deleteById(id);
     }
 
-     
     public double calculateTotalExpenses(Long userId, LocalDate startDate, LocalDate endDate) {
-        //List<Expensemodel> 
         List<Expensemodel> expenses = expenseRepository.findExpensesByUserAndDateRange(userId, startDate, endDate);
-        logger.info("calculateTotalExpenses this method is worked: "+expenses);
-        
+        logger.info("calculateTotalExpenses this method is worked: " + expenses);
+
         return expenses.stream().mapToDouble(Expensemodel::getAmmount).sum();
     }
-    /**/
 
-    public Expensemodel getExpenseById(Long exid){
-      Optional<Expensemodel> e =  expenseRepository.findByExpenseId(exid);
-      return e.orElseThrow(()-> new RuntimeException("not found"));
+    public Expensemodel getExpenseById(Long exid) {
+        Optional<Expensemodel> e = expenseRepository.findByExpenseId(exid);
+        return e.orElseThrow(() -> new RuntimeException("not found"));
     }
 
-    // Get total amount spent per category for a user
     public List<Object[]> getTotalAmountSpentByCategory(Long userId) {
         return expenseRepository.findTotalAmountSpentByCategory(userId);
     }
 
     public List<Object[]> getTotalAmountSpentByCategory(Long userId, LocalDate startDate, LocalDate endDate) {
-        return expenseRepository.findTotalAmountSpentByCategoryWithinDateRange(userId,startDate,endDate);
+        return expenseRepository.findTotalAmountSpentByCategoryWithinDateRange(userId, startDate, endDate);
     }
 
     public MonthlyReport generateMonthlyReport(Long userId, String month, String year) {
@@ -107,14 +92,13 @@ public class ExpensesHandlerService {
         LocalDate startDate = LocalDate.parse(year + "-" + month + "-01");
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-
         List<Object[]> categoryData = getTotalAmountSpentByCategory(userId, startDate, endDate);
 
         MonthlyReport report = new MonthlyReport();
 
         double totalExpenses = categoryData.stream()
-            .mapToDouble(data -> (Double) data[1]) 
-            .sum();
+                .mapToDouble(data -> (Double) data[1])
+                .sum();
 
         report.setTotalExpenses(totalExpenses);
 
