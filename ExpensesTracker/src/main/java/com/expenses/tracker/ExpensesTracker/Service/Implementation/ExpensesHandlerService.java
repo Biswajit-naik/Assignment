@@ -38,7 +38,7 @@ public class ExpensesHandlerService {
     public Expensemodel createExpense(Expensemodel expense,Long userId) {
         Usermodel user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not availble"));
         Expensemodel curexpense = new Expensemodel();
-        curexpense.setAmmount(expense.getAmount());
+        curexpense.setAmmount(expense.getAmmount());
         curexpense.setCategory(expense.getCategory());
         curexpense.setDescription(expense.getDescription());
         curexpense.setDate(expense.getDate());
@@ -53,7 +53,6 @@ public class ExpensesHandlerService {
         Pageable pageable = PageRequest.of(page, size);
         try{
             
-            // return expenseRepository.findByUser_Id(id, pageable);
             Page<Expensemodel> f = expenseRepository.findExpensesByUserId(id, pageable);
             logger.info("Scuccesfully get the getUserExpenses"+ f.getContent(),f.getNumber(),f.getSize());
 
@@ -68,7 +67,7 @@ public class ExpensesHandlerService {
 
     public Expensemodel updateExpense(Long id,Expensemodel expense) {
        Expensemodel existuser = expenseRepository.findById(id).orElseThrow(() -> new RuntimeException("Expense not availble"));
-       existuser.setAmmount(expense.getAmount());
+       existuser.setAmmount(expense.getAmmount());
        existuser.setCategory(expense.getCategory());
        existuser.setDescription(expense.getDescription());
        existuser.setDate(expense.getDate());
@@ -76,7 +75,7 @@ public class ExpensesHandlerService {
     }
 
     public void deleteExpense(Long id) {
-        userRepository.deleteById(id);
+        expenseRepository.deleteById(id);
     }
 
      
@@ -85,7 +84,7 @@ public class ExpensesHandlerService {
         List<Expensemodel> expenses = expenseRepository.findExpensesByUserAndDateRange(userId, startDate, endDate);
         logger.info("calculateTotalExpenses this method is worked: "+expenses);
         
-        return expenses.stream().mapToDouble(Expensemodel::getAmount).sum();
+        return expenses.stream().mapToDouble(Expensemodel::getAmmount).sum();
     }
     /**/
 
@@ -104,18 +103,17 @@ public class ExpensesHandlerService {
     }
 
     public MonthlyReport generateMonthlyReport(Long userId, String month, String year) {
-        // Convert month and year to date range
+
         LocalDate startDate = LocalDate.parse(year + "-" + month + "-01");
         LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
 
-        // double totalExpenses = calculateTotalExpenses(userId, startDate, endDate);
+
         List<Object[]> categoryData = getTotalAmountSpentByCategory(userId, startDate, endDate);
 
-        // Process category data and prepare the report
         MonthlyReport report = new MonthlyReport();
 
         double totalExpenses = categoryData.stream()
-            .mapToDouble(data -> (Double) data[1])  // Extracting totalAmount from the categoryData
+            .mapToDouble(data -> (Double) data[1]) 
             .sum();
 
         report.setTotalExpenses(totalExpenses);

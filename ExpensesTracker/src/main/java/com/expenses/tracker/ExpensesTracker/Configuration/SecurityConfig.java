@@ -17,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.expenses.tracker.ExpensesTracker.Filters.JwtFilter;
 import com.expenses.tracker.ExpensesTracker.Filters.RequestLoggingFilter;
-import com.expenses.tracker.ExpensesTracker.Model.RoleSelector;
 
 @Configuration
 public class SecurityConfig {

@@ -1,7 +1,5 @@
 package com.expenses.tracker.ExpensesTracker.Model;
 
-import org.springframework.stereotype.Indexed;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,7 +11,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name="user_table")

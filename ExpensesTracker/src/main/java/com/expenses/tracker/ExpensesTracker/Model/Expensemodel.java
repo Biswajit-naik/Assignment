@@ -28,8 +28,8 @@ public class Expensemodel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long expenseId;
-    
-    @NotNull(message = "Amount is required")
+
+    @NotNull(message = "Ammount is required")
     private Double ammount;
 
     @NotBlank(message = "Description is required")
@@ -43,7 +43,7 @@ public class Expensemodel {
         return expenseId;
     }
 
-    public Double getAmount() {
+    public Double getAmmount() {
         return ammount;
     }
 
@@ -61,7 +61,7 @@ public class Expensemodel {
 
     @Override
     public String toString() {
-        return "Expensemodel{id=" + expenseId + ", amount=" + ammount + ", description='" + description + "}";
+        return "Expensemodel{id=" + expenseId + ", ammount=" + ammount + ", description='" + description + "}";
     }
 
     // Many to one

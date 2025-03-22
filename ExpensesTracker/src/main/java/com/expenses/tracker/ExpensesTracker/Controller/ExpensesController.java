@@ -49,7 +49,6 @@ public class ExpensesController {
     @Autowired
     private ExpensemodelAssembler expensemodelAssembler;
 
-    // need to get anywhere userid
     @PostMapping
     public ResponseEntity<Expensemodel> createExpense(@Valid @RequestBody Expensemodel expense) {
         long userid = authenticationHandlerService.getAuthenticatedUserId();

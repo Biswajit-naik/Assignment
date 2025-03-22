@@ -1,6 +1,5 @@
 package com.expenses.tracker.ExpensesTracker.Controller;
 
-import com.expenses.tracker.ExpensesTracker.DTO.LoginResponse;
 import com.expenses.tracker.ExpensesTracker.DTO.LoginUser;
 import com.expenses.tracker.ExpensesTracker.DTO.RegisterDetails;
 import com.expenses.tracker.ExpensesTracker.Model.Usermodel;
@@ -13,13 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -87,7 +81,7 @@ public class AuthControllerTests {
         // Perform the POST request and validate the response
         mockMvc.perform(post("/api/auth/login")
                 .contentType("application/json")
-                .content("{ \"username\": \"test@example.com\", \"password\": \"password\" }"))
+                .content("{ \"email\": \"test@example.com\", \"password\": \"password\" }"))
                 .andExpect(status().isOk());
 
         verify(authenticationHandlerService, times(1)).authenticateUser(anyString(), anyString());

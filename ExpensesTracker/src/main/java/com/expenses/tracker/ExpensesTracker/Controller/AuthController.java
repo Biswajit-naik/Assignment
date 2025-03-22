@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import com.expenses.tracker.ExpensesTracker.DTO.LoginResponse;
 import com.expenses.tracker.ExpensesTracker.DTO.LoginUser;
 import com.expenses.tracker.ExpensesTracker.DTO.RegisterDetails;
-import com.expenses.tracker.ExpensesTracker.Filters.RequestLoggingFilter;
 import com.expenses.tracker.ExpensesTracker.Model.Usermodel;
 import com.expenses.tracker.ExpensesTracker.Service.Implementation.AuthenticationHandlerService;
 import com.expenses.tracker.ExpensesTracker.Service.Implementation.JwtHandlerService;
